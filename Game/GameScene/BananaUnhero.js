@@ -20,10 +20,10 @@ class BananaUnhero {
         return banana;
     }
 
-    update(sprite, app) {
+    update(sprite, app, speed) {
         app.stage.removeChild(sprite);
         sprite.rotation += 0.4;
-        sprite.x -= 1;
+        sprite.x -= speed;
         app.stage.addChild(sprite);
 
         return sprite;

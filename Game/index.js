@@ -3,8 +3,9 @@ let character,
     Char,
     app,
     keyMove,
-    banana,
+    banana = [],
     bg;
+let count = 0;
 
 function init() {
     app = Scene
@@ -64,10 +65,11 @@ function InitSceneAssets() {
         ._getInstance()
         .createChar();
 
-    banana = BananaUnhero
-        .getInstance()
-        .createUnhero(app);
-
+    for (let i = 0; i < 5; i++) {
+        banana.push(BananaUnhero
+            .getInstance()
+            .createUnhero(app));
+    }
 }
 
 function gameLoop() {
@@ -76,7 +78,7 @@ function gameLoop() {
 
     let colision = BananaChar
         ._getInstance()
-        ._isDeath(character, banana);
+        ._isDeath(character, banana[count]);
 
     if (colision === 'Dead') {
         console.log(colision);
@@ -88,17 +90,28 @@ function gameLoop() {
     }
     else {
 
-        banana = BananaUnhero
-            .getInstance()
-            .update(banana, app);
+        for (let i = 0; i < banana.length; i++) {
+            banana[i] = BananaUnhero
+                .getInstance()
+                .update(banana[i], app,
+                    i + 2);
 
-        banana = BananaUnhero
-            .getInstance()
-            .isWindow(banana);
+            banana[i] = BananaUnhero
+                .getInstance()
+                .isWindow(banana[i]);
+        }
+
         character = BananaChar
             ._getInstance()
-            .updateanimation(Char, app, keyMove, character, banana);
+            .updateanimation(Char, app, keyMove, character, banana[count]);
 
+
+        if (count === 4) {
+            count = 0;
+        } else {
+            count++;
+        }
+        console.log(count);
     }
 
 
